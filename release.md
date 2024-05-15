@@ -1,3 +1,3 @@
-## v1.0.0
+v1.0.0
 
 - Version con cambios para adaptar a CPCReday

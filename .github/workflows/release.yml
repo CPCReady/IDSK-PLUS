@@ -54,7 +54,7 @@ jobs:
         with:
           validation_level: warn
           version: ${{ steps.extract_version.outputs.version }}
-          path: ./CHANGELOG.md
+          path: GHANGELOG.md
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2

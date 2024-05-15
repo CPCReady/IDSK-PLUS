@@ -44,19 +44,10 @@ jobs:
           echo "Version: $VERSION"
           echo "::set-output name=version::$VERSION"
 
-      # - name: Read release.md file
-      #   run: |
-      #     RELEASE_BODY=$(cat release.md)
-      #     echo "::set-output name=release_body::$RELEASE_BODY"
-      - name: Read release.md and use it as a body of new release
-        id: read_release
-        shell: bash
+      - name: Read release.md file
         run: |
-          r=$(cat GHANGELOG.md) 
-          r="${r//'%'/'%25'}" 
-          r="${r//$'\n'/'%0A'}" 
-          r="${r//$'\r'/'%0D'}" 
-          echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT 
+          RELEASE_BODY=$(cat cat GHANGELOG.md)
+          echo "::set-output name=release_body::$RELEASE_BODY"
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
@@ -67,4 +58,4 @@ jobs:
           tag: v${{ steps.extract_version.outputs.version }}
           overwrite: true
           body: |
-            ${{ steps.read_release.outputs.RELEASE_BODY }}
+            ${{ steps.read_release.outputs.release_body }}

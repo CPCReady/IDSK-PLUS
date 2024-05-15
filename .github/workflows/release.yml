@@ -1,13 +1,13 @@
 name: build IDSK-PLUS
 
-# on:
-#   push:
-#     branches:
-#       - main  # Cambia esto al nombre de tu rama principal si es diferente
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - main  # Cambia esto al nombre de tu rama principal si es diferente
+# on:
+#   pull_request:
+#     branches:
+#       - main
 
 
 
@@ -44,10 +44,19 @@ jobs:
           echo "Version: $VERSION"
           echo "::set-output name=version::$VERSION"
 
-      - name: Read release.md file
+      # - name: Read release.md file
+      #   run: |
+      #     RELEASE_BODY=$(cat release.md)
+      #     echo "::set-output name=release_body::$RELEASE_BODY"
+      - name: Read release.md and use it as a body of new release
+        id: read_release
+        shell: bash
         run: |
-          RELEASE_BODY=$(cat release.md)
-          echo "::set-output name=release_body::$RELEASE_BODY"
+          r=$(cat path/to/release.md)                       # <--- Read release.md (Provide correct path as per your repo)
+          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
+          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
+          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
+          echo "RELEASE_BODY=$r" >> $GITHUB_OUTPUT          # <--- Set environment variable
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
@@ -58,4 +67,4 @@ jobs:
           tag: v${{ steps.extract_version.outputs.version }}
           overwrite: true
           body: |
-            ${{ steps.read_release.outputs.release_body }}
+            ${{ steps.read_release.outputs.RELEASE_BODY }}

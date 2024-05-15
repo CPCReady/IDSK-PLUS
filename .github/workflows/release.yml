@@ -44,10 +44,17 @@ jobs:
           echo "Version: $VERSION"
           echo "::set-output name=version::$VERSION"
 
-      - name: Read release.md file
-        run: |
-          RELEASE_BODY=$(cat GHANGELOG.md)
-          echo "::set-output name=release_body::$RELEASE_BODY"
+      # - name: Read release.md file
+      #   run: |
+      #     RELEASE_BODY=$(cat GHANGELOG.md)
+      #     echo "::set-output name=release_body::$RELEASE_BODY"
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_level: warn
+          version: ${{ steps.extract_version.outputs.version }}
+          path: CHANGELOG.md
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
@@ -57,5 +64,4 @@ jobs:
           asset_name: ${{ matrix.asset_name }}
           tag: v${{ steps.extract_version.outputs.version }}
           overwrite: true
-          body: |
-            ${{ steps.read_release.outputs.release_body }}
+          body: ${{ steps.changelog_reader.outputs.changes }}

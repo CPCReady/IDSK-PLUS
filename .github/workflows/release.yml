@@ -24,6 +24,7 @@ jobs:
           - os: macos-latest
             artifact_name: iDSK
             asset_name: iDSK-macos-amd64
+            architecture: intel
 
     steps:
       - name: Checkout code

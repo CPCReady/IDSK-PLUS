@@ -30,8 +30,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3.1.0
 
-      - name: Install Poetry
+      - name: make idsk
         run: |
+          mkdir bin
+          make clean
           make
           ls -R
 

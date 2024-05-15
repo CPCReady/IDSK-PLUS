@@ -32,6 +32,7 @@ jobs:
       - name: Install Poetry
         run: |
           make
+          ls -R
 
       - name: Extract version from VERSION file
         id: extract_version

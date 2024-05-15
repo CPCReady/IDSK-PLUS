@@ -46,7 +46,7 @@ jobs:
 
       - name: Read release.md file
         run: |
-          RELEASE_BODY=$(cat cat GHANGELOG.md)
+          RELEASE_BODY=$(cat GHANGELOG.md)
           echo "::set-output name=release_body::$RELEASE_BODY"
 
       - name: Upload binaries to release

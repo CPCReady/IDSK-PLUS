@@ -1,13 +1,13 @@
 name: build IDSK-PLUS
 
-on:
-  push:
-    branches:
-      - main  # Cambia esto al nombre de tu rama principal si es diferente
 # on:
-#   pull_request:
+#   push:
 #     branches:
-#       - main
+#       - main 
+on:
+  pull_request:
+    branches:
+      - main
 
 
 
